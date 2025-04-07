@@ -119,17 +119,3 @@ reserva-sala/
 3. O microserviço de reservas verifica se a sala existe e está disponível no microserviço de salas
 4. Se todas as verificações passarem, a reserva é criada
 5. O microserviço de reservas atualiza o status da sala no microserviço de salas
-
-## Contribuição
-
-Para contribuir com o projeto:
-
-1. Faça um fork do repositório
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
-3. Faça commit das suas alterações (`git commit -m 'Adiciona nova feature'`)
-4. Faça push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
-
-## Licença
-
-Este projeto está licenciado sob a licença Apache 2.0 - veja o arquivo LICENSE para detalhes.
