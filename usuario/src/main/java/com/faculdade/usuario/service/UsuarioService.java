@@ -1,6 +1,7 @@
 package com.faculdade.usuario.service;
 
 import com.faculdade.usuario.model.Usuario;
+import com.faculdade.usuario.model.TipoUsuario;
 import com.faculdade.usuario.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class UsuarioService {
         return usuarioRepository.findByEmail(email);
     }
 
-    public List<Usuario> findByTipo(String tipo) {
+    public List<Usuario> findByTipo(TipoUsuario tipo) {
         return usuarioRepository.findByTipo(tipo);
     }
 
@@ -40,7 +41,6 @@ public class UsuarioService {
     }
 
     public Usuario save(Usuario usuario) {
-        // Verificar se já existe um usuário com o mesmo email
         Optional<Usuario> existingUser = usuarioRepository.findByEmail(usuario.getEmail());
         if (existingUser.isPresent()) {
             throw new RuntimeException("Já existe um usuário com este email");
@@ -50,14 +50,12 @@ public class UsuarioService {
     }
 
     public void deleteById(Long id) {
-        // Verificar se o usuário tem reservas ativas
         try {
             List<?> reservas = restTemplate.getForObject(RESERVA_SERVICE_URL + "/usuario/" + id, List.class);
             if (reservas != null && !reservas.isEmpty()) {
                 throw new RuntimeException("Não é possível excluir o usuário pois ele possui reservas");
             }
         } catch (Exception e) {
-            // Se não conseguir se comunicar com o serviço de reservas, apenas ignora
         }
         
         usuarioRepository.deleteById(id);
@@ -67,7 +65,6 @@ public class UsuarioService {
         if (usuarioRepository.existsById(id)) {
             usuario.setId(id);
             
-            // Verificar se o novo email já está em uso por outro usuário
             Optional<Usuario> existingUser = usuarioRepository.findByEmail(usuario.getEmail());
             if (existingUser.isPresent() && !existingUser.get().getId().equals(id)) {
                 throw new RuntimeException("Já existe um usuário com este email");
