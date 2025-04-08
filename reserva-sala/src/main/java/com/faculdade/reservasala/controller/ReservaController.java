@@ -1,6 +1,7 @@
 package com.faculdade.reservasala.controller;
 
 import com.faculdade.reservasala.model.Reserva;
+import com.faculdade.reservasala.model.StatusReserva;
 import com.faculdade.reservasala.service.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class ReservaController {
     }
 
     @GetMapping("/usuario/{usuarioId}")
-    public List<Reserva> getReservasByUsuario(@PathVariable Long usuarioId) {
+    public List<Reserva> getReservasByUsuarioId(@PathVariable Long usuarioId) {
         return reservaService.findByUsuarioId(usuarioId);
     }
 
@@ -42,15 +43,15 @@ public class ReservaController {
         }
     }
 
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Reserva> updateStatus(@PathVariable Long id, @RequestParam StatusReserva status) {
+        Reserva updatedReserva = reservaService.updateStatus(id, status);
+        return updatedReserva != null ? ResponseEntity.ok(updatedReserva) : ResponseEntity.notFound().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReserva(@PathVariable Long id) {
         reservaService.deleteById(id);
         return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/{id}/status")
-    public ResponseEntity<Reserva> updateStatus(@PathVariable Long id, @RequestParam String status) {
-        Reserva updatedReserva = reservaService.updateStatus(id, status);
-        return updatedReserva != null ? ResponseEntity.ok(updatedReserva) : ResponseEntity.notFound().build();
     }
 } 

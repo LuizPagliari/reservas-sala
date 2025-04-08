@@ -1,6 +1,7 @@
 package com.faculdade.usuario.controller;
 
 import com.faculdade.usuario.model.Usuario;
+import com.faculdade.usuario.model.TipoUsuario;
 import com.faculdade.usuario.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/tipo/{tipo}")
-    public List<Usuario> getUsuariosByTipo(@PathVariable String tipo) {
+    public List<Usuario> getUsuariosByTipo(@PathVariable TipoUsuario tipo) {
         return usuarioService.findByTipo(tipo);
     }
 
